@@ -33,7 +33,7 @@ void setKeys(chip8 chip)
 
 int main(int argc, char **argv)
 {
-    sf::RenderWindow window(sf::VideoMode(512, 256), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(640, 320), "Chip8 Emulator");
     chip8 myChip8;
 
     // Initialize the Chip8 system and load the game into the memory
@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 
             unsigned char* gfx = myChip8.getGraphics();
 
-            sf::Vector2f pixelSize(8, 8);
+            sf::Vector2f pixelSize(10, 10);
             sf::RectangleShape pixel;
             pixel.setSize(pixelSize);
 
