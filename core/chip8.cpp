@@ -35,12 +35,11 @@ unsigned char* chip8::getGraphics() {
 }
 
 void chip8::setKeys(byte* keyStates){
-    for(int i = 0; i < 16; i++)
+    for(int i = 0; i < 16; i++) {
         key[i] = keyStates[i];
+    }
 
-    for(int i = 0; i < 16; i++)
-        if(key[i] == 1)
-            printf("Key Pressed: %d\n", i);
+
 }
 
 void chip8::loadGame(string gamePath) {
@@ -90,7 +89,6 @@ void chip8::emulateCycle() {
 void chip8::decodeOpcode(unsigned short opcode){
     std::stringstream stream;
     stream << std::hex << opcode;
-    string opcodeStr = stream.str();
 
     // Get opcode parameters
     int X = (opcode & 0x0F00) >> 8;
@@ -351,13 +349,17 @@ void chip8::xDXYN(unsigned char X, unsigned char Y, unsigned char N) {
 void chip8::xEX9E(unsigned char X) {
     if(key[V[X]] != 0)
         program_counter += 2;
-
     program_counter += 2;
 }
 void chip8::xEXA1(unsigned char X) {
     if(key[V[X]] == 0)
         program_counter += 2;
     program_counter += 2;
+
+    printf("Checking Key: %d, Value = %d\n", V[X], key[V[X]]);
+    for(int i = 0; i < 16; i++)
+        printf("%d", key[V[X]]);
+    printf("\n");
 }
 
 void chip8::xFX07(unsigned char X) {

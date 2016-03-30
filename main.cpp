@@ -6,10 +6,10 @@
 
 using namespace std;
 
-void setKeys(chip8 chip)
+void setKeys(chip8 *chip)
 {
     byte keyStates[16];
-    keyStates[1] = sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) ? 1 : 0;
+    keyStates[1] = sf::Keyboard::isKeyPressed(sf::Keyboard::Num1) ? 1 : 1;
     keyStates[2] = sf::Keyboard::isKeyPressed(sf::Keyboard::Num2) ? 1 : 0;
     keyStates[3] = sf::Keyboard::isKeyPressed(sf::Keyboard::Num3) ? 1 : 0;
     keyStates[0xC] = sf::Keyboard::isKeyPressed(sf::Keyboard::Num4) ? 1 : 0;
@@ -25,10 +25,7 @@ void setKeys(chip8 chip)
     keyStates[0] = sf::Keyboard::isKeyPressed(sf::Keyboard::X) ? 1 : 0;
     keyStates[0xB] = sf::Keyboard::isKeyPressed(sf::Keyboard::C) ? 1 : 0;
     keyStates[0xF] = sf::Keyboard::isKeyPressed(sf::Keyboard::V) ? 1 : 0;
-    chip.setKeys(keyStates);
-    while(sf::Keyboard::isKeyPressed(sf::Keyboard::P)){
-        int x = 0;
-    }
+    chip->setKeys(keyStates);
 }
 
 int main(int argc, char **argv)
@@ -38,7 +35,7 @@ int main(int argc, char **argv)
 
     // Initialize the Chip8 system and load the game into the memory
     myChip8.initialize();
-    myChip8.loadGame("res/roms/PONG2");
+    myChip8.loadGame("res/roms/INVADERS");
 
     sf::Clock clock;
     clock.restart();
@@ -57,6 +54,9 @@ int main(int argc, char **argv)
         sf::Time timeElapsed = clock.restart();
         if(timeElapsed > FRAMETIME)
             sf::sleep(FRAMETIME - timeElapsed);
+
+        // Store key press state (Press and Release)
+        setKeys(&myChip8);
 
         // Emulate one cycle
         myChip8.emulateCycle();
@@ -83,9 +83,6 @@ int main(int argc, char **argv)
 
             myChip8.drawFlag = false;
         }
-
-        // Store key press state (Press and Release)
-        setKeys(myChip8);
     }
 
     return 0;
